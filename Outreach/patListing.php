@@ -9,8 +9,7 @@ include './MelaClass/authInitScript.php';
 
 ?>
 <head>
-<link type="text/css" rel="stylesheet" href="media/css/normalize.css"/>
-<!-- <link type="text/css" rel="stylesheet" href="media/css/ListingStyle.css"> -->    
+<link type="text/css" rel="stylesheet" href="media/css/normalize.css"/>  
 <link type="text/css" rel="stylesheet" href="media/css/jquery-ui.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/style.css"/>		
 <link type="text/css" rel="stylesheet" href="media/css/jquery css.css"/>		
@@ -22,6 +21,8 @@ include './MelaClass/authInitScript.php';
 <script src="media/js/jPages.min.js"></script>
 <script src="media/js/jquery-ui-1.10.3.min.js"></script>
 <script src="media/js/jquery-impromptu.js"></script>
+
+
 <script type="text/javascript">
     $(document).ready(function(){
 	jQuery.expr[':'].contains = function(a,i,m){
@@ -57,8 +58,8 @@ include './MelaClass/authInitScript.php';
 		    $("div.holder").jPages("destroy");
 		    $("div.holder").jPages({
 			    containerID : "patlisting",
-			    previous : "-",
-			    next : "+",
+			    previous : "previous",
+			    next : "next",
 			    perPage : 15,
 			    delay : 20
 		    });
@@ -84,8 +85,8 @@ include './MelaClass/authInitScript.php';
 		$("div.holder").jPages("destroy");
 		$("div.holder").jPages({
 			    containerID : "patlisting",
-			    previous : "-",
-			    next : "+",
+			    previous : "previous",
+			    next : "next",
 			    perPage : 15,
 			    delay : 20
 		    });
@@ -120,7 +121,7 @@ include './MelaClass/authInitScript.php';
 	
 	   $( "#dialog-form" ).dialog({
 	     autoOpen: false,
-	     height: 400,
+	     height: 113,
 	     width: 280,
 	     modal: true,
 	     buttons: {
@@ -175,8 +176,8 @@ include './MelaClass/authInitScript.php';
     $(function(){
 	$("div.holder").jPages({
 	    containerID : "patlisting",
-	    previous : "-",
-	    next : "+",
+	    previous : "previous",
+	    next : "next",
 	    perPage : 15,
 	    delay : 20
 	});

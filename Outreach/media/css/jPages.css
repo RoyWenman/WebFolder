@@ -1,8 +1,11 @@
 .holder {
+	height:15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	float:right;
 	
 	font-size: 12px;
-	text-align: right;
+	text-align: center;
 	background-color: rgb(220,220,220);
 	border: 1px solid rgb(150,150,150);
 
@@ -13,13 +16,12 @@
 	border-top-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
-
-	width: 30%;
+	width: 35%;
 }
 
 .holder a {
 	padding: 3px;
-	font-size: 12px;
+	font-size: 13px;
 	cursor: pointer;
 	margin: 3px;
 	color: #333333;
@@ -27,8 +29,12 @@
 
 .holder a:hover {
 	padding: 3px; 
-	background-color: #ffffff;
-	color: #000000;
+	background-color: #FFFFBB;
+	color: #0000AA;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 .holder a.jp-previous { margin-right: 15px; }
