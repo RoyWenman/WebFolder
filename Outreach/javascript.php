@@ -892,7 +892,7 @@
 		var destination = data['destination'];
 		var edit = data['edit'];
 		var med = data['med'];
-		console.debug(data);
+		//console.debug(data);
 		
 		if (med === 1) {
 		    // Determine which accordion panel is open to determine which table to place the new row in
@@ -939,19 +939,35 @@
 		
 		
 		if (CLRow == 1) {
-		    
 		    /*Extra columns for the medications area*/
 		    if (med == 1) {
+			// Need to get extra data to fill out the dropdown menus
+			var DDHTML = "";
+			$.ajax({
+			    type: "POST",
+			    url: "getMedDDs.php",
+			    data: "id=1",
+			    async: false,
+			    success: function(msg){
+				DDHTML = msg;
+			    },
+			    error: function(XMLHttpRequest, textStatus, errorThrown) {
+				DDHTML = 'Invalid';
+				alert(" Status: " + textStatus + "\n Error message: "+ errorThrown); 
+			    } 
+			});
+			var medDDs = DDHTML.split('|');			
+			
 			var tr = $(
 				'<tr>'
 				+ '<td class="cat ' + abbr + '"></td>'
 				+ '<td class="sel ' + abbr + '"></td>' 
 				+ '<td><input type="text" value="0" name="' + abbr + 'Dose[' + rowID + ']" id="' + abbr + 'Dose[' + rowID + ']"></td>'
-				+ '<td><select><option>One</option><option>Two</option></select></td>'
-				+ '<td><select><option>Hourly</option><option>Twice hourly</option></select></td>'
-				+ '<td><select><option>IV</option><option>Oral</option></select></td>'
-				+ '<td><select><option>?</option><option>??</option></select></td>'
-				+ '<td>00/00/0 00:00:00</td>'
+				+ '<td>' + medDDs[0] + '</td>'
+				+ '<td>' + medDDs[1] + '</td>'
+				+ '<td>' + medDDs[2] + '</td>'
+				+ '<td>' + medDDs[3] + '</td>'
+				+ '<td><input type="date" value="" name="' + abbr + 'Date[' + rowID + ']" id="' + abbr + 'Date[' + rowID + ']"></td>'
 				+ '<td id="textArea_cell"><textarea class="FormBlock gi_text" name="' + abbr + 'notes[' + rowID + ']"></textarea><input type="hidden" name="catText[' + rowID + ']" class="hiddenCat"><input type="hidden" name="selText[' + rowID + ']" class="hiddenSel"></td>'
 				+ '<td id="Button_cell"><button id="' + rowID + '" type="button" class="editRow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-page="' + destination + '"><img src="Media/img/pencil.gif" alt="Edit"/></button></td>'
 				+ '<td id="Button_cell"><button id="' + rowID + '" type="button" class="deleteRow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-page="' + destination + '"><img src="Media/img/bin.gif" alt="Delete"/></button></td></tr>');
