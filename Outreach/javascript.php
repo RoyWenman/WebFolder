@@ -946,7 +946,7 @@
 			$.ajax({
 			    type: "POST",
 			    url: "getMedDDs.php",
-			    data: "id=1",
+			    data: "id=" + rowID,
 			    async: false,
 			    success: function(msg){
 				DDHTML = msg;
@@ -962,13 +962,13 @@
 				'<tr>'
 				+ '<td class="cat ' + abbr + '"></td>'
 				+ '<td class="sel ' + abbr + '"></td>' 
-				+ '<td><input type="text" value="0" name="' + abbr + 'Dose[' + rowID + ']" id="' + abbr + 'Dose[' + rowID + ']"></td>'
+				+ '<td><input type="text" value="0" name="med-Dose[' + rowID + ']" id="med-Dose[' + rowID + ']"></td>'
 				+ '<td>' + medDDs[0] + '</td>'
 				+ '<td>' + medDDs[1] + '</td>'
 				+ '<td>' + medDDs[2] + '</td>'
 				+ '<td>' + medDDs[3] + '</td>'
-				+ '<td><input type="date" value="" name="' + abbr + 'Date[' + rowID + ']" id="' + abbr + 'Date[' + rowID + ']"></td>'
-				+ '<td id="textArea_cell"><textarea class="FormBlock gi_text" name="' + abbr + 'notes[' + rowID + ']"></textarea><input type="hidden" name="catText[' + rowID + ']" class="hiddenCat"><input type="hidden" name="selText[' + rowID + ']" class="hiddenSel"></td>'
+				+ '<td><input type="date" value="" name="med-Discontinued[' + rowID + ']" id="med-Discontinued[' + rowID + ']"></td>'
+				+ '<td id="textArea_cell"><textarea class="FormBlock gi_text" name="mednotes[' + rowID + ']"></textarea><input type="hidden" name="catText[' + rowID + ']" class="hiddenCat"><input type="hidden" name="selText[' + rowID + ']" class="hiddenSel"></td>'
 				+ '<td id="Button_cell"><button id="' + rowID + '" type="button" class="editRow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-page="' + destination + '"><img src="Media/img/pencil.gif" alt="Edit"/></button></td>'
 				+ '<td id="Button_cell"><button id="' + rowID + '" type="button" class="deleteRow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-page="' + destination + '"><img src="Media/img/bin.gif" alt="Delete"/></button></td></tr>');
 			$( ".medicationAccordion" ).accordion( "refresh" );
