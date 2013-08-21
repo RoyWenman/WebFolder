@@ -1,7 +1,6 @@
 <link type="text/css" rel="stylesheet" href="media/css/normalize.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/style.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/jquery-ui.css">
-<link type="text/css" rel="stylesheet" href="media/css/tablesorterStyle.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/surgery.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/GI_Style_real.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/Header_style.css">
@@ -12,7 +11,16 @@
 <script language="JavaScript" type="text/javascript">
  function CloseAndRefresh() 
     {
-        opener.surgeryIframe.location.reload();
+	var code = $('#hiddenCode').val();
+	var operID = $('#hiddenOPERID').val();
+	var operName = $('#hiddenOPERName').val();
+	var tr = $('<tr>'
+		    + '<td class="cat">&nbsp; &nbsp;' + code + '</td>' 
+		    + '<td class="sel">&nbsp; ' + operName + '</td>'
+		    + '<td id="Button_cell"><button id="' + operID + '" type="button" data-page="OPCSSurgery" class="editRow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="line-height: normal; height: 28px; width: 39px;"><img src="Media/img/pencil.gif" alt="Edit"/></button></td>'
+		    + '<td id="Button_cell"><button id="' + operID + '" type="button" data-page="OPCS" class="deleteRow ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="line-height: normal; height: 28px; width: 39px;"><img src="Media/img/bin.gif" alt="Delete"/></button></td>'
+		    + '</tr>');
+	$('#OPER > tbody:last', window.opener.document).one().append(tr);
         self.close();
     }
 </script>
@@ -30,7 +38,8 @@ if (!$_REQUEST['code']) die("No code has been specified");
 
 $LNKID = filter_var($_REQUEST['lnkid'], FILTER_SANITIZE_NUMBER_INT);
 
-
+$hiddenCode = $Form->hiddenField('hiddenCode',$_REQUEST['code']);
+echo $hiddenCode;
 
 
     $patquery = "SELECT  d.dmg_FirstName, d.dmg_Surname, d.dmg_DateOfBirth, d.dmg_Sex, d.dmg_NHSNumber, d.dmg_HospitalNumber,  a.adm_Number 
@@ -98,8 +107,7 @@ if ($_POST) {
         } 
             } 
         catch (RuntimeException $e) { 
-                print("Exception caught: $e");
-                //exit;
+            print("Exception caught: $e");
         }
         
     $operID = $OCode['OPER_ID'];    
@@ -107,7 +115,7 @@ if ($_POST) {
 
 
     //print "<h1>".$OCode['OPER_ID']." - ".$OCode['OPER_TITLE']." - ".$OCode['OPER_NAME']."</h1>";
-    var_dump($_POST);
+    //var_dump($_POST);
     $opr_updQuery = "INSERT INTO OPER_PatOperations (OPER_lnkID, OPER_ID, Oper_Code, Anea1, Anea2, OPER_Date, OPER_Classification, IncisionType, Type, Outcome, Technique, OPER_Comments)
      VALUES ($LNKID, $operID, '$surgeryCode', $anea1, $anea2, '$surgeryDate', '$classification', '$incision', '$surgeryType', '$outcome', '$technique','$notes')";
     /*
@@ -116,7 +124,11 @@ if ($_POST) {
      VALUES ($LNKID,'$surgeryCode', $anea1, $anea2, '$surgeryDate', '$classification', '$incision', '$surgeryType', '$outcome', '$technique','$notes')";*/
     $opr_update = odbc_prepare($connect, $opr_updQuery);
     $opr_updResult = odbc_execute($opr_update) or die(odbc_errormsg());
-
+    
+    $hiddenOperID = $Form->hiddenField('hiddenOPERID',$operID);
+    echo $hiddenOperID;
+    $hiddenOperName = $Form->hiddenField('hiddenOPERName',$OCode['OPER_NAME']);
+    echo $hiddenOperName;
 ?>
 <script type="text/javascript">
     CloseAndRefresh();
