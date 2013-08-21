@@ -1,13 +1,13 @@
-<!--<meta http-equiv="refresh" content="5; URL=patDmg.php?lnkID=<?php echo $_POST['patLNK']; ?>">-->
+<meta http-equiv="refresh" content="5; URL=patDmg.php?lnkID=<?php echo $_POST['patLNK']; ?>">
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
 include './MelaClass/functions.php';
 include './MelaClass/db.php';
 include './MelaClass/authInitScript.php';
 
-echo "<h3>Variable dump for debugging purposes (easily hidden). Scroll below for success/failure check</h3>";
+/*echo "<h3>Variable dump for debugging purposes (easily hidden). Scroll below for success/failure check</h3>";
 var_dump($_POST);
-echo "<h4>If you don't see anything below this line it saved successfully</h4>";
+echo "<h4>If you don't see anything below this line it saved successfully</h4>";*/
 
 if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
 
@@ -369,6 +369,16 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
 	   $admWeightSQL = "adm_Weight=".$_POST['dmg-weight'].",";
      }
      
+     $admSurgeryClassification = "";
+     if (strlen($_POST['adm-srgClassification']) != 0) {
+	   $admWeightSQL = "adm_SurgeryClassification='".$_POST['adm-srgClassification']."',";
+     }
+     
+     $admASAScoreSQL = "";
+     if (strlen($_POST['adm-ASAScoreDD']) != 0) {
+	   $admASAScoreSQL = "ASAScore='".$_POST['adm-ASAScoreDD']."',";
+     }
+     
      /* Consultant is passed by ID because it is used to get consultant speciality but
       * stored as first_Name Last_Name so fetch that and consultant speciality here from ID
       */
@@ -394,10 +404,10 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
      // Pregnant='".$_POST['dmg-pregnant']."'
      $adm_updQuery = "UPDATE Admission SET $originalHospitalAdmissionSQL $admICUAdmissionSQL $ICUAdminTimeSQL
      $admHospitalAdmissionSQL $admDischargeDateSQL $ICUDischargeTimeSQL $admReferralDateSQL $admHDUAdmissionSQL
-     $HDUAdminTimeSQL $admHDUDischargeSQL $HDUDischargeTimeSQL $ICUDischargeDelaySQL
+     $HDUAdminTimeSQL $admHDUDischargeSQL $HDUDischargeTimeSQL $ICUDischargeDelaySQL $admSurgeryClassification $admASAScoreSQL
      $admCCUAdmissionSQL $CCUAdminTimeSQL $admCCUDischargeSQL $CCUDischargeTimeSQL adm_ICU_DischargeDelay_Reason='".$_POST['adm-delayReason']."',
      adm_Number=".$_POST['adm-outreachNumber'].", adm_Ward='".$_POST['adm-location']."', adm_Consultant='$consultantName', Speciality_Entered='".$admConsultant['MDS_SPECIALITY']."', adm_HospitalAdmissionSource='".$_POST['adm-sourceOfAdmission']."',
-     adm_LP_HospAdmSource='".$_POST['adm-locationPriorToSource']."', adm_SurgeryClassification='".$_POST['adm-surgeryClassification']."', Hosp='".$_POST['adm-hospital']."', adm_PlannedAdmission='".$_POST['adm-plannedAdmission']."', adm_PriorSurgery='".$_POST['adm-priorSurgeryUndertaken']."',
+     adm_LP_HospAdmSource='".$_POST['adm-locationPriorToSource']."', Hosp='".$_POST['adm-hospital']."', adm_PlannedAdmission='".$_POST['adm-plannedAdmission']."', adm_PriorSurgery='".$_POST['adm-priorSurgeryUndertaken']."',
      adm_ReAdmisson=".$admReAdmission.", $admResearchTagsSQL adm_Scored='".$_POST['adm-scoredByWard']."', adm_Triggered='".$_POST['adm-triggeredByWard']."', $admWeightSQL $admHeightSQL adm_BodyMassIndex=".$_POST['dmg-BMIHidden']."
      WHERE adm_ID=".$_POST['adm_ID']."";
      try { 
@@ -800,13 +810,57 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
 	print("Exception caught: $e");
     }
     
-    $ccmds_updQuery = "UPDATE CCMDS SET UnitFunction=".$ccmdsUnitFunction['SHORT_NAME'].", TrtSpecialityCode='".$_POST['ccmds-treatmentFunction']."',
-		       BedConfig=".$ccmdsUnitBedConfiguration['SHORT_NAME'].", AdmSrc=".$ccmdsAdmissionSource['SHORT_NAME'].", SrcLocation=".$ccmdsSourceLocation['SHORT_NAME'].",
-		       AdmType=".$ccmdsAdmissionType['SHORT_NAME'].", DischStatus=".$ccmdsDischargeStatus['SHORT_NAME'].", DischDest=".$ccmdsDischargeDestination['SHORT_NAME'].",
-		       DischLocation=".$ccmdsDischargeLocation['SHORT_NAME']."
+    $ccmdsUnitFunctionSQL = "";
+    if (strlen($ccmdsUnitFunction['SHORT_NAME']) > 0) {
+	$ccmdsUnitFunctionSQL = "UnitFunction=".$ccmdsUnitFunction['SHORT_NAME'].",";	
+    }
+    
+    $ccmdsBedConfigSQL = "";
+    if (strlen($ccmdsUnitBedConfiguration['SHORT_NAME']) > 0) {
+	$ccmdsBedConfigSQL = "BedConfig=".$ccmdsUnitBedConfiguration['SHORT_NAME'].",";	
+    }
+    
+    $ccmdsAdmSrcSQL = "";
+    if (strlen($ccmdsAdmissionSource['SHORT_NAME']) > 0) {
+	$ccmdsAdmSrcSQL = "AdmSrc=".$ccmdsAdmissionSource['SHORT_NAME'].",";	
+    }
+    
+    $ccmdsSrcLocationSQL = "";
+    if (strlen($ccmdsSourceLocation['SHORT_NAME']) > 0) {
+	$ccmdsSrcLocationSQL = "SrcLocation=".$ccmdsSourceLocation['SHORT_NAME'].",";	
+    }
+    
+    $ccmdsAdmTypeSQL = "";
+    if (strlen($ccmdsAdmissionType['SHORT_NAME']) > 0) {
+	$ccmdsAdmTypeSQL = "AdmType=".$ccmdsAdmissionType['SHORT_NAME'].",";	
+    }
+    
+    $ccmdsDischStatusSQL = "";
+    if (strlen($ccmdsDischargeStatus['SHORT_NAME']) > 0) {
+	$ccmdsDischStatusSQL = "DischStatus=".$ccmdsDischargeStatus['SHORT_NAME'].",";	
+    }
+    
+    $ccmdsDischDestSQL = "";
+    if (strlen($ccmdsDischargeDestination['SHORT_NAME']) > 0) {
+	$ccmdsDischDestSQL = "DischDest=".$ccmdsDischargeDestination['SHORT_NAME'].",";	
+    }
+    
+    $ccmdsDischLocationSQL = "";
+    if (strlen($ccmdsDischargeLocation['SHORT_NAME']) > 0) {
+	$ccmdsDischLocationSQL = "DischLocation=".$ccmdsDischargeLocation['SHORT_NAME'].",";	
+    }
+    
+    $ccmds_updQuery = "UPDATE CCMDS SET $ccmdsUnitFunctionSQL
+		       $ccmdsBedConfigSQL $ccmdsAdmSrcSQL $ccmdsSrcLocationSQL
+		       $ccmdsAdmTypeSQL $ccmdsDischStatusSQL $ccmdsDischDestSQL
+		       TrtSpecialityCode='".$_POST['ccmds-treatmentFunction']."'		       
 		       WHERE dmg_ID=".$_POST['dmg-ID']."";
-    $ccmds_update = odbc_prepare($connect, $ccmds_updQuery);
-    $ccmds_updResult = odbc_execute($ccmds_update) or die(odbc_errormsg());
+    try { 
+	$ccmds_updResult = odbc_exec($connect,$ccmds_updQuery); 
+    } 
+    catch (RuntimeException $e) { 
+	print("Exception caught: $e");
+    } //echo $ccmds_updQuery;
      
     ?>
     <div style="height:100%; width:100%;">
