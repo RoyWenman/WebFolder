@@ -2258,7 +2258,9 @@
 			var data = $(this).data();
 			var page = data['page'];
 			var checkboxes = [];
-			var result = JSON.stringify($('form#ass-TagsForm :input').serializeObject());
+			var result = JSON.stringify($('#ass-TagsForm :input').serializeObject());
+			console.debug("Page is " + page);
+			console.debug("Result is " + result);
 	       
 			if ( bValid ) {
 			  $.ajax({

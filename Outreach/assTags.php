@@ -16,7 +16,7 @@ foreach($obj as $key => $value){
        }
  }
  
-if ($admResearchTags) {
+if (isset($admResearchTags) && is_array($admResearchTags)) {
     $gluedAdmResearchTags = implode(',',$admResearchTags);
     $gluedAdmResearchTags .= ",";
     //echo $gluedAdmResearchTags;
@@ -31,5 +31,5 @@ try {
        print("Exception caught: $e");
     } //echo $sql;
     
-echo "<Br />Tags saved";
+echo "<Br />";
 ?>
