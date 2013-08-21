@@ -5,9 +5,9 @@ include './MelaClass/functions.php';
 include './MelaClass/db.php';
 include './MelaClass/authInitScript.php';
 
-/*echo "<h3>Variable dump for debugging purposes (easily hidden). Scroll below for success/failure check</h3>";
+echo "<h3>Variable dump for debugging purposes (easily hidden). Scroll below for success/failure check</h3>";
 var_dump($_POST);
-echo "<h4>If you don't see anything below this line it saved successfully</h4>";*/
+echo "<h4>If you don't see anything below this line it saved successfully</h4>";
 
 if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
 
@@ -668,6 +668,21 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
 		 //print "<b>Value</b>: $key as ".$val."<br />";
 			
 		 $mo_updQuery = "UPDATE Modality SET mod_Comments='$val' WHERE ID=$key AND mod_lnkID = ".$_POST['patLNK']."";
+		 try { 
+		      $mo_updResult = odbc_exec($connect,$mo_updQuery); 
+		     } 
+		 catch (RuntimeException $e) { 
+		       print("Exception caught: $e");
+		 }
+	      }
+     }
+     
+    // Surgeries (G+I)
+    if ($_POST['SUnotes']) {
+	   foreach ($_POST['SUnotes'] AS $key => $val) {
+		 //print "<b>Value</b>: $key as ".$val."<br />";
+			
+		 $mo_updQuery = "UPDATE Surgery SET srg_Notes='$val' WHERE srg_ID=$key AND srg_lnkID = ".$_POST['patLNK']."";
 		 try { 
 		      $mo_updResult = odbc_exec($connect,$mo_updQuery); 
 		     } 

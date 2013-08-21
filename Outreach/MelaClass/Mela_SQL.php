@@ -185,7 +185,7 @@ class Mela_SQL {
                 if($result){ 
                         while ($anaesthetists = odbc_fetch_array($result)) {
                             $preselect = (is_numeric($selected) && $anaesthetists['mds_ID'] == $selected) ? 'selected' : '';
-                            $output .="<option value='".$anaesthetists['mds_ID']."' $preselect>".$anaesthetists['mds_Title']." ".$anaesthetists['mds_FirstName']." ".$anaesthetists['mds_Surname']."</option>";    
+                            $output .="<option value='".$anaesthetists['mds_ID']."' $preselect>".$anaesthetists['mds_FirstName']." ".$anaesthetists['mds_Surname']."</option>";    
                         }
                 } 
                 else{ 

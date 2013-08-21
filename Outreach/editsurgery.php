@@ -5,6 +5,11 @@
 <link type="text/css" rel="stylesheet" href="media/css/surgery.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/GI_Style_real.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/Header_style.css">
+    <style>
+        body {
+            color: black;
+        }
+    </style>
     
 <script src="media/js/jquery-1.10.0.min.js"></script>
 <script src="media/js/closeEditPages.js"></script>
@@ -132,7 +137,7 @@ if (!$_POST) {
 
             <table class="OPCS_Contain_Table temp">
                             <tr>
-                                <td colspan="4">Anaesthetist 133</td>
+                                <td colspan="4">Anaesthetist 1</td>
                                 <td colspan="6">
                                     <?php
                                         $anaesthetist1 = $Mela_SQL->getAnaesthetistDropdown('anaesthetist1','',$operationData['ANEA1']);
@@ -283,30 +288,72 @@ if (!$_POST) {
     $surgeryDate = $_POST['surgDate'];
     $surgeryTime = $_POST['surgTime'];
     $anea1 = filter_var($_POST['anaesthetist1'], FILTER_SANITIZE_NUMBER_INT);
-    $anea2 = filter_var($_POST['anaesthetist2'], FILTER_SANITIZE_NUMBER_INT);
-    $type = filter_var($_POST['typeOfSurgery'], FILTER_SANITIZE_STRING);
-    $incisionType = filter_var($_POST['incisionSite'], FILTER_SANITIZE_STRING);
-    $classification = filter_var($_POST['classification'], FILTER_SANITIZE_STRING);
-    $technique = filter_var($_POST['technique'], FILTER_SANITIZE_STRING);
-    $outcome = filter_var($_POST['outcome'], FILTER_SANITIZE_STRING);
-    $notes = filter_var($_POST['surgeryNotes'], FILTER_SANITIZE_STRING);
+    $anea2 = filter_var($_POST['anaesthetist2'], FILTER_SANITIZE_NUMBER_INT);   
+    
     
     $srgDateSQL = "";
-    if (strlen($surgeryDate) != 0) {
-          $srgDateSQL = "srg_SurgeryDate='".$surgeryDate."',";
+    if (isset($_POST['surgDate']) && strlen($surgeryDate) != 0) {
+        $srgDateSQL = "srg_SurgeryDate='".$surgeryDate."',";
     }
     
     $srgTimeSQL = "";
-    if (strlen($surgeryTime) != 0) {
-          $srgTimeSQL = "srg_SurgeryTime='".$surgeryTime."',";
+    if (isset($_POST['surgTime']) && strlen($surgeryTime) != 0) {
+        $srgTimeSQL = "srg_SurgeryTime='".$surgeryTime."',";
     }
+    
+    $srgTypeSQL= "";    
+    if (isset($_POST['typeOfSurgery']) && strlen($_POST['typeOfSurgery']) != 0) {
+        $type = filter_var($_POST['typeOfSurgery'], FILTER_SANITIZE_STRING);
+        $srgTypeSQL = "`Type`='$type',";
+    }
+    
+    $srgIncisionTypeSQL = "";
+    if (isset($_POST['incisionSite']) && strlen($_POST['incisionSite']) != 0) {
+        $incisionType = filter_var($_POST['incisionSite'], FILTER_SANITIZE_STRING);
+        $srgIncisionTypeSQL = "IncisionType='$incisionType',";
+    }
+    
+    /*$srgClassificationSQL = "";
+    if (strlen($_POST['classification']) != 0) {
+        $classification = filter_var($_POST['classification'], FILTER_SANITIZE_STRING);
+    }*/
+    
+    $srgTechniqueSQL = "";
+    if (isset($_POST['technique']) && strlen($_POST['technique']) != 0) {
+        $technique = filter_var($_POST['technique'], FILTER_SANITIZE_STRING);
+        $srgTechniqueSQL = "Technique='$technique',";
+    }
+    
+    $srgOutcomeSQL = "";
+    if (isset($_POST['outcome']) && strlen($_POST['outcome']) != 0) {
+        $outcome = filter_var($_POST['outcome'], FILTER_SANITIZE_STRING);
+        $srgOutcomeSQL = "Outcome='$outcome',";
+    }
+    
+    $srgSurgeryModeSQL = "";
+    if (isset($_POST['classification']) && strlen($_POST['classification']) != 0) {
+        $classification = filter_var($_POST['classification'], FILTER_SANITIZE_STRING);
+        $srgSurgeryModeSQL = "srg_SurgeryMode='$classification',";
+    }
+    
+    $srgDetailsSQL = "";
+    if (isset($operationData['DESCRIPTION']) && strlen($operationData['DESCRIPTION']) != 0) {
+        $srgDetailsSQL = "srg_Details='".$operationData['DESCRIPTION']."',";
+    }
+    
+    $srgNotesSQL = "";
+    if (isset($_POST['surgeryNotes']) && strlen($_POST['surgeryNotes']) != 0) {
+        $notes = filter_var($_POST['surgeryNotes'], FILTER_SANITIZE_STRING);
+        $srgNotesSQL = "srg_Notes='$notes',";
+    }
+    
     $hiddenNotes = $Form->hiddenField('hiddenNotes',$notes);
-    echo $hiddenNotes;
+    echo $hiddenNotes;    
     //var_dump($_POST);
     
-    $query = "UPDATE Surgery SET $srgDateSQL $srgTimeSQL Anea1=$anea1, Anea2=$anea2, `Type`='$type',
-              IncisionType='$incisionType', Technique='$technique', Outcome='$outcome', srg_Notes='$notes', srg_SurgeryMode='$classification',
-              srg_Details='".$operationData['DESCRIPTION']."'
+    $query = "UPDATE Surgery SET $srgDateSQL $srgTimeSQL $srgTypeSQL
+              $srgIncisionTypeSQL $srgTechniqueSQL $srgOutcomeSQL $srgSurgeryModeSQL
+              $srgDetailsSQL $srgNotesSQL Anea1=$anea1, Anea2=$anea2
               WHERE srg_ID=$rowID AND srg_lnkID=$lnkID";
     try { 
         $result = odbc_exec($connect,$query); echo $query;
