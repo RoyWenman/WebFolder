@@ -60,7 +60,7 @@ include './MelaClass/authInitScript.php';
 			    containerID : "patlisting",
 			    previous : "previous",
 			    next : "next",
-			    perPage : 15,
+			    perPage : 10,
 			    delay : 20
 		    });
 	});
@@ -87,7 +87,7 @@ include './MelaClass/authInitScript.php';
 			    containerID : "patlisting",
 			    previous : "previous",
 			    next : "next",
-			    perPage : 15,
+			    perPage : 10,
 			    delay : 20
 		    });
 	    }
@@ -121,7 +121,7 @@ include './MelaClass/authInitScript.php';
 	
 	   $( "#dialog-form" ).dialog({
 	     autoOpen: false,
-	     height: 113,
+	     height: 120,
 	     width: 280,
 	     modal: true,
 	     buttons: {
@@ -168,6 +168,18 @@ include './MelaClass/authInitScript.php';
 	     .click(function() {
 	       $( "#dialog-form" ).dialog( "open" );
 	     });
+
+
+	   $( "#sign-out" )
+	     .button()
+	     .click(function() {
+	       window.location = "MelaClass/logoutAction.php"
+	     });
+
+
+
+
+
 	});
      
     });
@@ -178,7 +190,7 @@ include './MelaClass/authInitScript.php';
 	    containerID : "patlisting",
 	    previous : "previous",
 	    next : "next",
-	    perPage : 15,
+	    perPage : 10,
 	    delay : 20
 	});
      });
@@ -191,7 +203,7 @@ flush();
 <body>
 <?php
 
-print "<a href=MelaClass/logoutAction.php>Click here to logout</a>";
+// print "<a href=MelaClass/logoutAction.php>Click here to logout</a>";
 print "<input type='hidden' id='userID' value='".$auth->UsrKeys->UserID."'>";
 /*
  * Determines which columns to display based on the rows present in
@@ -274,6 +286,7 @@ try {
 		<table class='list_nav'>
 			<tr>
 				<td>
+					<button type='button' style='font-size:small;' id='sign-out'>Logout</button>
 					<button type='button' style='font-size:small;' id='create-user'>Add new patient</button>
 			    </td>
 			    <td class='search_cell'>
@@ -291,7 +304,7 @@ try {
 		    <form>
 		    <fieldset>
 			<label for='hospNum'>Hospital Number</label>
-			<input type='text' name='hospNum' id='hospNum' class='text ui-widget-content ui-corner-all' />
+			<input type='text' name='hospNum' id='hospNum' class='text ui-widget-content ui-corner-all hospNo-form' />
 		    </fieldset>
 		    </form>
 		</div>

@@ -40,8 +40,7 @@ body {
 
 
 
-.list_nav{
-  /*text-align: right;*/
+/*.list_nav{
   width: 99%;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -49,16 +48,40 @@ body {
   margin:0;
   padding: 3px;
   border:1px solid #E6E6F0;
-
   font-size: 14px;
-  /*background: #66A3FF;*/
-  /*border:1px solid #a1a1a1;*/
   background: rgb(210, 210, 210);
   border:1px solid rgb(150, 150, 150);
   color: rgb(80, 80, 80);
-  /*text-shadow: 1px 1px 7px rgba(0, 0, 0, 0.7);*/
+}*/
 
+
+
+
+.list_nav{
+  height: 36px;
+  width: 99%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin:5px auto 5px auto;
+  font-size: 13px;
+  background: rgb(200, 200, 200);
+  color: #FFFFFF;
 }
+
+.list_nav tr td{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+.search_cell{
+  font-size: 14px;
+  color: #333333;
+  text-align: right;
+}
+
+
 
 
 
@@ -260,7 +283,7 @@ table.pl_class {
  
 table.pl_class td,
 table.pl_class th {
-    padding: 5px;
+    padding: 0;
     border: 1px solid #fff;
 }
 
@@ -273,13 +296,13 @@ table.pl_class thead th {
   border-bottom-style: solid;
   border-width:1px;
   /*border-color:#187E89;*/
-  padding:5px;
+  /*padding:5px;*/
   text-align: center;
   vertical-align: top;
 
   border:1px solid #E6E6F0;
 
-  font-size: 14px;
+  font-size: 13px;
   background: #66A3FF;
   border:1px solid #a1a1a1;
   color: #FFFFFF !important;

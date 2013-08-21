@@ -1058,9 +1058,14 @@ font-size: small;
 .btn_bar {
 	text-decoration: none;
 	font-family: 'Open+Sans' sans-serif;
-	height: 33px;
-	padding: 1px 2px;
-	background: #FFFFFF;
+	height: 30px;
+	padding: 5px 5px 0px 5px;
+	background: rgb(200, 200, 200);
+  border: 1px solid rgb(175, 175, 175);
+  margin-bottom: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .myButton{

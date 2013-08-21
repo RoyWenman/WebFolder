@@ -171,12 +171,15 @@ padding-top:8px;
 	display:none; 
 	width:auto; 
 	position:absolute; 
-	top:7px; /*38*/
+	top:13px; /*38*/
 	padding:6px 0 5px 0;
 	border-radius:0 0 5px 5px; 
 	z-index:999; 
 /* Sub menu option canvas background color*/
 	background:#66A3FF;
+	border-bottom: 1px solid rgb(111, 111, 111);
+	border-left: 1px solid rgb(111, 111, 111);
+	border-right: 1px solid rgb(111, 111, 111);
 } 
 
 .cssmenu ul li > ul{

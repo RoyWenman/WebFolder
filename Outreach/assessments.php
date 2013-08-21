@@ -36,10 +36,24 @@
 </script>
 
 <!-- Add new assessment button and form -->
-<div class='list_nav'>
+<!-- <div class='list_nav'>
     <button type='button' style='font-size:small;' id='addNewAssessment' style='margin-bottom:5px;'>Add new assessment</button>
     Search: <input type='text' name='search'>
-</div>
+</div> -->
+
+<table class='list_nav'>
+    <tr>
+        <td>
+            <button type='button' style='font-size:small;' id='addNewAssessment' style='margin-bottom:5px;'>Add new assessment</button>
+        </td>
+        <td class='search_cell'>
+            Search: <input type='text' name='search'>
+        </td>
+    </tr>
+</table>
+
+
+
 
 
 

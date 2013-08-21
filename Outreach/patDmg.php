@@ -119,9 +119,9 @@ if (!isset($patient['DLK_ID'])) $patient['DLK_ID'] = 0;
 	flush();
 	?>
 	<body>
-	    <div id="top_of_page">
+<!-- 	    <div id="top_of_page">
 		<a href='patListing.php'>Click here for Patient Listing</a> - <a "href=MelaClass/logoutAction.php">Click here to logout</a>
-	    </div>
+	    </div> -->
 		<!--<script> FocusTop(); </script>-->
 		<div class="container clearfix">
 			<div class="Header_List">
@@ -154,10 +154,9 @@ if (!isset($patient['DLK_ID'])) $patient['DLK_ID'] = 0;
 			    echo $hiddenLNK;    
 			?>				
 				<div id="tabs2" class="btn_bar">
+					<button style="font-size:small;color:green" type="button" name="vsHTMLogoutButt" value="Logout" onclick="logOutConfirm()">Logout</button>
 					<button style="font-size:small;color:red" type="button" name="vsHTMCancelButt" id="cancelButton" data-lnkid="<?php echo $patient['LNK_ID']; ?>" value="Cancel">Cancel</button>
 					<button style="font-size:small;color:green" type="submit" name="vsHTMSaveButt" value="Save" onclick="return OnSave(PatDmg)">Save</button>
-
-					<button style="font-size:small;color:green" type="button" name="vsHTMLogoutButt" value="Logout" onclick="logOutConfirm()">Logout</button>
 					<?php if ($auth->UsrKeys->UserGrpName == "Admin Group") { ?><button style="font-size:small;color:red" type="button" name="vsHTMDeleteButt" id="deletePatient" data-lnkid="<?php echo $patient['LNK_ID']; ?>" value="Delete">Delete</button><?php } ?>
 					<?php if ($appName == "Outreach" && $patient['TRIGGSTAT'] == "TRIG") { ?> <button style="font-size:small;color:gray" type="button" name="vsHTMSeenButt" id="patientSeen" data-lnkid="<?php echo $patient['LNK_ID']; ?>" data-user="<?php echo $auth->UsrKeys->Username; ?>" value="Patient Seen">Patient Seen</button> <?php } ?>
 				</div>

@@ -110,9 +110,12 @@ catch (RuntimeException $e) {
 	<?php echo $preferences['prf_HospitalName']; ?>
     </title>
     </head>
-    <div id="top_of_page">
+
+
+
+<!--     <div id="top_of_page">
 	<a href='patListing.php'>Click here for Patient Listing</a> - <a href='MelaClass/logoutAction.php'>Click here to logout</a>
-    </div>
+    </div> -->
     <?php
 	// This supposedly speeds up rendering time - see http://developer.yahoo.com/performance/rules.html#etags
 	flush();
@@ -174,11 +177,11 @@ catch (RuntimeException $e) {
 		echo $hiddenUsername;
 	    ?>
 	    <div id="tabs2" class="btn_bar">
+	    	<button style="font-size:small;color:green" type="button"  name="vsHTMLogoutButt" value="Logout" onclick="logOutConfirm()">Logout</button>
 		    <!--<button style="font-size:small;color:black" type="button" name="vsHTMDemographicsButt" value="Back" onclick="toDemographics(<?php echo $patient['LNK_ID']; ?>)">Go back</button>
 		    <button style="font-size:small;color:red" type="button" name="vsHTMCancelButt" value="Cancel" id="cancelButton" data-lnkid="<?php echo $patient['LNK_ID']; ?>">Cancel</button>-->
 		    <button style="font-size:small;color:red" type="button" name="vsHTMDemographicsButt" value="Back" onclick="toDemographics(<?php echo $patient['LNK_ID']; ?>)">Cancel</button>
 		    <button style="font-size:small;color:green" type="submit"  name="vsHTMSaveButt" value="Save" onclick="return OnSave(Ass)">Save</button>
-		    <button style="font-size:small;color:green" type="button"  name="vsHTMLogoutButt" value="Logout" onclick="logOutConfirm()">Logout</button>
 		    <?php if ($auth->UsrKeys->UserGrpName == "Admin Group") { ?><button style="font-size:small;color:red" type="button" name="vsHTMDeleteButt" id="deletePatient" data-lnkid="<?php echo $patient['LNK_ID']; ?>" value="Delete">Delete</button><?php } ?>
 		    <?php if ($appName == "Outreach" && $patient['TRIGGSTAT'] == "TRIG") { ?> <button style="font-size:small;color:gray" type="button" name="vsHTMSeenButt" id="patientSeen" data-lnkid="<?php echo $patient['LNK_ID']; ?>" data-user="<?php echo $auth->UsrKeys->Username; ?>" value="Patient Seen">Patient Seen</button> <?php } ?>
 		    <!-- Form submission success -->
@@ -210,20 +213,34 @@ catch (RuntimeException $e) {
 		    <li><a href="#page-17"><span>Care Level</span></a></li>
 		</ul>
 		    
+
+
 	    <div class="cssmenu">	
 		<ul>
 		    <li class='tabs_item' id='tabAssessDetails'><a href='#page-1' class='active_pat_tab'><span>Assess Details</span></a></li>
 		    <?php if ($appName == "AcutePain" && $preferences['ShowPainAss'] == 'true') { ?><li class='tabs_item' id='tabPainAssessment'><a href='#page-2'><span>Pain Assessment</span></a></li><?php } ?>
 		    <?php if ($appName == "Outreach") { ?><li class='tabs_item' id='tabCareLevel'><a href='#page-17'><span>Care Level</span></a></li><?php } ?>
-		    <?php if ($preferences['prf_Physical_Examination'] == 'true') { ?><li class='tabs_item' id='tabPhysicalExamination'><a href='#page-3'><span>Physical Examination</span></a></li> <?php } ?>
+		    <?php if ($preferences['prf_Physical_Examination'] == 'true') { ?><li class='tabs_item' id='tabPhysicalExamination'><a href='#page-3'><span>Observation</span></a></li> <?php } ?>
 		    <?php if ($appName == "Outreach") { ?>
-			<?php if ($preferences['prf_ShowPhys1'] == 'true') { ?><li class='tabs_item' id='tabPhysiology1A'><a href='#page-4'><span>Physiology 1A</span></a></li><?php } ?>
-			<?php if ($preferences['prf_ShowPhys1'] == 'true') { ?><li class='tabs_item' id='tabPhysiology1B'><a href='#page-5'><span>Physiology 1B</span></a></li><?php } ?>
-			<?php if ($preferences['Physiology2'] == 'true') { ?><li class='tabs_item' id='tabPhysiology2'><a href='#page-6'><span>Physiology 2</span></a></li><?php } ?>
-			<?php if ($preferences['prf_Infection'] == 'true') { ?><li class='tabs_item' id='tabSepsis'><a href='#page-7'><span>Sepsis/Infections</span></a></li><?php } ?>
+				<li class='has-sub tabs_item'><a href='#page-2'><span>Investigation</span></a>
+				    <ul>
+						<?php if ($preferences['prf_ShowPhys1'] == 'true') { ?><li class='tabsub' id='tabPhysiology1A'><a href='#page-4'><span>Physiology 1A</span></a></li><?php } ?>
+						<?php if ($preferences['prf_ShowPhys1'] == 'true') { ?><li class='tabsub' id='tabPhysiology1B'><a href='#page-5'><span>Physiology 1B</span></a></li><?php } ?>
+						<?php if ($preferences['Physiology2'] == 'true') { ?><li class='tabsub' id='tabPhysiology2'><a href='#page-6'><span>Physiology 2</span></a></li><?php } ?>
+				    </ul>
+				</li>
 		    <?php } ?>	
-		    <?php if ($preferences['prf_Show_Medication'] == 'true') { ?><li class='tabs_item' id='tabMedications'><a href='#page-8'><span>Medications</span></a></li><?php } ?>
-		    <?php if ($preferences['prf_Show_Interventions'] == 'true') { ?><li class='tabs_item' id='tabInterventions'><a href='#page-9'><span>Interventions</span></a></li><?php } ?>
+
+				<li class='has-sub tabs_item'><a href='#page-2'><span>Management</span></a>
+				    <ul>
+						<?php if ($preferences['prf_Show_Interventions'] == 'true') { ?><li class='tabsub' id='tabInterventions'><a href='#page-9'><span>Interventions</span></a></li><?php } ?>
+					    <?php if ($preferences['prf_Show_Medication'] == 'true') { ?><li class='tabsub' id='tabMedications'><a href='#page-8'><span>Medications</span></a></li><?php } ?>
+					    <?php if ($appName == "Outreach") { ?>
+							<?php if ($preferences['prf_Infection'] == 'true') { ?><li class='tabsub' id='tabSepsis'><a href='#page-7'><span>Sepsis/Infections</span></a></li><?php } ?>
+					    <?php } ?>
+				    </ul>
+				</li>
+
 		    <?php if ($preferences['ShowCritIncidents'] == 'true') { ?><li class='tabs_item' id='tabCriticalIncidents'><a href='#page-10'><span><?php if ($preferences['CritInc_Title'] != '') { echo $preferences['CritInc_Title']; } else { echo "Critical Incidents"; } ?></span></a></li><?php } ?>
 		    <?php if ($preferences['prf_ShowSurgery_Ass'] == 'true') { ?><li class='tabs_item' id='tabSurgery'><a href='#page-11'><span>Surgery</span></a></li><?php } ?>
 		    <?php if ($preferences['show_daily_outcome'] == 'true') { ?><li class='tabs_item' id='tabVisitOutcome'><a href='#page-12'><span>Visit Outcome</span></a></li><?php } ?>

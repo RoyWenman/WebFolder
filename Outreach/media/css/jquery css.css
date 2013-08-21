@@ -14,8 +14,14 @@ like the bacground font etc*/
 .ui-widget textarea, 
 .ui-widget button { 
 	font-family: 'Open+Sans' sans-serif; 
-font-size: 1em; 
+font-size: 14px; 
 }
+
+
+.hospNo-form{
+	height:30px;
+}
+
 
 
 

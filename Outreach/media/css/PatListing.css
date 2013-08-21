@@ -44,9 +44,10 @@
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	margin:5px auto 10px auto;
+	margin:5px auto 5px auto;
 	font-size: 1em;
 	background: rgb(200, 200, 200);
+	border: 1px solid rgb(175, 175, 175);
 	color: #FFFFFF;
 	text-shadow: 1px 1px 7px rgba(0, 0, 0, 0.7);
 }
@@ -116,7 +117,7 @@
 .div_Listing_Content{
 	padding:2px;
 	margin:0px;
-	border:1 solid #d1d1d1;
+	border:1px solid #d1d1d1;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
