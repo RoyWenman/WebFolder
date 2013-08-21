@@ -169,6 +169,9 @@ catch (RuntimeException $e) {
 		
 		$hiddenAssessmentID = $Form->hiddenField('hiddenAssessmentID',$assessmentID);
 		echo $hiddenAssessmentID;
+		
+		$hiddenUsername = $Form->hiddenField('hiddenUsername',$auth->UsrKeys->Username);
+		echo $hiddenUsername;
 	    ?>
 	    <div id="tabs2" class="btn_bar">
 		    <!--<button style="font-size:small;color:black" type="button" name="vsHTMDemographicsButt" value="Back" onclick="toDemographics(<?php echo $patient['LNK_ID']; ?>)">Go back</button>

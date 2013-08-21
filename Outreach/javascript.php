@@ -494,15 +494,18 @@
 	    $('.calculateNEWS').change(function() {
 		var ID = $('#patDLKID').val();
 		var lnkid = $('#hiddenLNKID').val();
+		var username = $('#hiddenUsername').val();
 		
 		var query = "?dlkid="+ID+"&dlk_patID="+ID+"&lnkid=" + lnkid;
 		$.ajax({
 		    type: "POST",
 		    url: "calculateNEWS.php",
-		    data: "page=PHYS&id=" + ID,
+		    data: "page=PHYS&id=" + ID +"&user=" + username,
 		    async: false,
 		    success: function(msg){
 			var ValsArr = msg.split('	');
+			console.debug(ValsArr);
+			console.debug("Score is " + ValsArr[0]);
 			if (ValsArr[0] >= '6') { // NEWS Total
 			    popitup('NEWSPopup.php','NEWS',query,550,1025);    
 			}
