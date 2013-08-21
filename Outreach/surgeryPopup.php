@@ -4,9 +4,11 @@
 <link type="text/css" rel="stylesheet" href="media/css/surgery.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/GI_Style_real.css"/>
 <link type="text/css" rel="stylesheet" href="media/css/Header_style.css">
+<link type="text/css" rel="stylesheet" href="media/css/jquery-impromptu.css"/>
     
 <script src="media/js/jquery-1.10.0.min.js"></script>
 <script src="media/js/closeEditPages.js"></script>
+<script src="media/js/jquery-impromptu.js"></script>
 
 <script language="JavaScript" type="text/javascript">
  function CloseAndRefresh() 
@@ -23,6 +25,64 @@
 	$('#OPER > tbody:last', window.opener.document).one().append(tr);
         self.close();
     }
+    
+    $(document).ready(function() {
+        $.validator.addMethod("noFutureDates", function(value, element) {
+	    // Check that the date given is not in the future
+	    var myDate = value;
+	    return Date.parse(myDate) >= new Date();
+	}, "Date cannot be in the future");
+        
+        $.validator.addMethod("notEmpty", function(value, element) {
+	    // Check that the data is not empty
+	    if (value.length > 0) {
+                return value;
+            } else return false;
+	}, "Data cannot be empty");
+        
+        var submitted = false;
+	    
+        $("#surgeryAdd_form").validate({
+            errorLabelContainer: ".validationErrorBox",
+            wrapper: "li",
+            showErrors: function(errorMap, errorList) {
+                if (submitted) {
+                    if (errorList) {
+                        var summary = "Form errors: \n";
+                        //$.each(errorList, function() { summary += " * " + this.message + "\n"; });
+                        //$(".validationErrorBox").show().text(summary);
+                        //$.each(errorList, function() { summary +="\n"; });
+                        //$(".validationErrorBox").show().text(summary);
+                        submitted = false;	
+                    } else {
+                        $(".validationErrorBox").hide().val('');    
+                    }
+                    
+                }
+                this.defaultShowErrors();
+            },          
+            invalidHandler: function(form, validator) {
+                var submitted = true;
+            },
+            rules: {
+                "date": "noFutureDates",
+                "anaesthetist1": "notEmpty",
+                "anaesthetist2": "notEmpty"
+            },
+             messages: {
+                "date": "Date set cannot be in the future",
+                "anaesthetist1": "Anaesthetist 1 cannot be empty",
+                "anaesthetist2": "Anaesthetist 2 cannot be empty"
+            },
+            highlight: function(element) {
+                $(element).closest('.control-group').removeClass('success').addClass('error');
+            },
+            success: function(element) {
+                $(element).removeClass('error');
+                $(element).remove();
+            }
+        });
+    });
 </script>
 
 <?php
@@ -174,6 +234,10 @@ if ($_POST) {
             <span class="ui-button-text">Save</span>
             </button>
         </div>
+        
+        <div class="validationErrorBox" style="display:none;">
+            <!-- Necessary for displaying any form validation errors - leave blank, jQuery fills this in -->
+        </div>
 
 
 <!-- searchBtn -->
@@ -203,7 +267,11 @@ if ($_POST) {
                 </tr>
                 <tr>
                     <td>Date</td>
-                    <td><input type="date" class="FormField" name="date" size="6"></td>
+                    <td>
+                        <?php
+                        echo $Form->dateField('date');
+                        ?>
+                    </td>
                     <td>Classification</td>
                     <td>
                         <?php
