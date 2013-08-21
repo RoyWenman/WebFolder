@@ -132,7 +132,7 @@ if (!isset($patient['DLK_ID'])) $patient['DLK_ID'] = 0;
 				<ul id="Head_Mid" class="grid_3">
 					<li>
 						<table class="Tab_Mid">
-							<tr><td class="Table_Mid">Sex123&nbsp;</td><td class="Table_Mid"><?php echo $patient['DMG_SEX']; ?></td></tr>
+							<tr><td class="Table_Mid">Sex123456&nbsp;</td><td class="Table_Mid"><?php echo $patient['DMG_SEX']; ?></td></tr>
 							<tr><td class="Table_Mid">DOB&nbsp;</td><td class="Table_Mid"><?php $splitDOB = explode(' ',$patient['DMG_DATEOFBIRTH']); echo $splitDOB[0]; ?></td></tr>
 						</table>
 					</li>
