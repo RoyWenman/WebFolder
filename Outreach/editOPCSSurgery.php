@@ -1,3 +1,10 @@
+<link type="text/css" rel="stylesheet" href="media/css/normalize.css"/>
+<link type="text/css" rel="stylesheet" href="media/css/style.css"/>
+<link type="text/css" rel="stylesheet" href="media/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="media/css/surgery.css"/>
+<link type="text/css" rel="stylesheet" href="media/css/GI_Style_real.css"/>
+<link type="text/css" rel="stylesheet" href="media/css/Header_style.css">
+    
 <script src="media/js/jquery-1.10.0.min.js"></script>
 <script src="media/js/closeEditPages.js"></script>
 <script type="text/javascript">    
@@ -30,6 +37,13 @@ include './MelaClass/authInitScript.php';
 // Need post data for this
 //if (!$_POST || !$_REQUEST) die("No operation data specified");
 
+
+
+
+
+
+
+
 if (!$_POST) {
 $Form = new Mela_Forms('surgeryEdit','','POST','surgeryEdit_form');
 
@@ -53,48 +67,111 @@ $Form = new Mela_Forms('surgeryEdit','','POST','surgeryEdit_form');
                             //exit;
                     }
         
+
+
+
+    $patquery = "SELECT  d.dmg_FirstName, d.dmg_Surname, d.dmg_DateOfBirth, d.dmg_Sex, d.dmg_NHSNumber, d.dmg_HospitalNumber,  a.adm_Number 
+            FROM Demographic d
+            LEFT OUTER JOIN LINK l ON d.dmg_ID = l.lnk_dmgID
+            LEFT OUTER JOIN Admission a ON a.adm_ID = l.lnk_admID
+            WHERE l.lnk_ID=$lnkID";
+
+
+        try { 
+            $patresult = odbc_exec($connect,$patquery); 
+                if($patresult){ 
+                    $PatData = odbc_fetch_array($patresult);
+                } 
+                else{ 
+                    throw new RuntimeException("Failed to connect."); 
+                } 
+            }
+        catch (RuntimeException $e) { 
+            print("Exception caught: $e");
+        }
+
+        if($patresult){ 
+            $patresult = odbc_fetch_array($patresult);
+            global $patresult;    
+        }
+
+
+
+        
         ?>
+
+<div class="container clearfix">
+
+            <div class="Header_List">
+                <ul id="Head_Left" class="grid_3 alpha">
+                    <li><?php echo $PatData['DMG_FIRSTNAME']; ?></li> 
+                    <li><?php echo $PatData['DMG_SURNAME']; ?></li>
+                </ul>
+                <ul id="Head_Mid" class="grid_3">
+                    <li>
+                        <table class="Tab_Mid">
+                            <tr><td class="Table_Mid">Sex&nbsp;</td><td class="Table_Mid"><?php echo $PatData['DMG_SEX']; ?></td></tr>
+                            <tr><td class="Table_Mid">DOB&nbsp;</td><td class="Table_Mid"><?php $splitDOB = explode(' ',$PatData['DMG_DATEOFBIRTH']); echo $splitDOB[0]; ?></td></tr>
+                        </table>
+                    </li>
+                </ul>
+                <ul id="Head_Right" class="grid_3 omega">
+                    <li>
+                        <table>
+                            <tr><td class="Table_Right">NHS No&nbsp;</td><td class="Table_Right"><?php echo $PatData['DMG_NHSNUMBER']; ?></td></tr>
+                            <tr><td class="Table_Right">Hospital No&nbsp;</td><td class="Table_Right"><?php echo $PatData['DMG_HOSPITALNUMBER']; ?></td></tr>
+                            <tr><td class="Table_Right">Referral No&nbsp;</td><td class="Table_Right"><?php echo $PatData['ADM_NUMBER']; ?></td></tr>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+
+        <div id="tabs2" class="btn_bar">
+            <!-- <a href="surgeryframe.php?lnkID=<?php echo $lnkID; ?>"><button type="button">Go back</button></a> -->
+            <button style="font-size: small; color: red;" type="button" value="Cancel" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" onclick="self.close()">
+            <span class="ui-button-text">Cancel</span>
+            </button>
+
+            <button style="font-size: small; color: green;" type="submit" value="Save" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="return CloseAndRefresh()">
+            <span class="ui-button-text">Save</span>
+            </button>
+        </div>
+
+            
+    <div class="dataContainer">
+
+
+
         <form name="editSurgery" action="?action=edit" method="POST">
         <input type="hidden" name="lnkID" value="<?php echo $lnkID; ?>">
         <input type="hidden" name="operationID" value="<?php echo $operationID; ?>">
-            <fieldset style="width:95%;">
-                        <legend>
-                            Selected record
-                        </legend>
-                        
-                        <table class="temp" cellpadding="5">
+
+                        <table class="Surgery_Table temp">
                             <tr>
-                                <td width="25%">
-                                    Anaesthetist 1
+                                <td>Anaesthetist 1</td>
+                                <td>
+                                    <?php $anaesthetist1 = $Mela_SQL->getAnaesthetistDropdown('anaesthetist1','',$operationData['ANEA1']); echo $anaesthetist1; ?>
+                                    <button style="font-size: small;" type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-target='#anaesthetist1'>
+                                    <span class="ui-button-text">Reset</span>
+                                    </button>
                                 </td>
-                                <td width="25%">
-                                    <?php
-                                        $anaesthetist1 = $Mela_SQL->getAnaesthetistDropdown('anaesthetist1','',$operationData['ANEA1']);
-                                        echo $anaesthetist1;
-                                    ?>
-                                    <button type='button' class='resetButton' data-target='#anaesthetist1'>Reset</button>
-                                </td>
-                                <td width="25%">
-                                    Anaesthetist 2
-                                </td>
-                                <td width="20%">
-                                    <?php
-                                        $anaesthetist2 = $Mela_SQL->getAnaesthetistDropdown('anaesthetist2','',$operationData['ANEA2']);
-                                        echo $anaesthetist2;
-                                    ?>
-                                    <button type='button' class='resetButton' data-target='#anaesthetist2'>Reset</button>
+
+                                <td>Anaesthetist 2</td>
+                                <td>
+                                    <?php $anaesthetist2 = $Mela_SQL->getAnaesthetistDropdown('anaesthetist2','',$operationData['ANEA2']); echo $anaesthetist2; ?>
+                                    <button style="font-size: small;" type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-target='#anaesthetist2'>
+                                    <span class="ui-button-text">Reset</span>
+                                    </button>
                                 </td>
                             </tr>
+
+
+
                             <tr>
-                                <td>
-                                    Date
-                                </td>
-                                <td>
-                                    <input type="date" class="FormField" name="date" size="6" value="<?php echo stringToDateTime($operationData['OPER_DATE'],2); ?>">
-                                </td>
-                                <td>
-                                    Classification
-                                </td>
+                                <td>Date</td>
+                                <td><input type="date" class="FormField" name="date" size="6" value="<?php echo stringToDateTime($operationData['OPER_DATE'],2); ?>"></td>
+
+                                <td>Classification</td>
                                 <td>
                                     <?php
                                         $srgClassificationDDSQL = $Mela_SQL->tbl_LoadItems('Surgery Classification');
@@ -108,10 +185,10 @@ $Form = new Mela_Forms('surgeryEdit','','POST','surgeryEdit_form');
                                     ?>
                                 </td>
                             </tr>
+
+
                             <tr>
-                                <td>
-                                    Incision site
-                                </td>
+                                <td>Incision site</td>
                                 <td>
                                     <?php
                                         $srgIncisionDDSQL = $Mela_SQL->tbl_LoadItems('Incision Site');
@@ -124,9 +201,7 @@ $Form = new Mela_Forms('surgeryEdit','','POST','surgeryEdit_form');
                                         echo $srgIncisionDD;                         
                                     ?>
                                 </td>
-                                <td>
-                                    Type of Surgery
-                                </td>
+                                <td>Type of Surgery</td>
                                 <td>
                                     <?php
                                         $srgIncisionDDSQL = $Mela_SQL->tbl_LoadItems('Type Of Surgery');
@@ -140,10 +215,10 @@ $Form = new Mela_Forms('surgeryEdit','','POST','surgeryEdit_form');
                                     ?>
                                 </td>
                             </tr>
+
+
                             <tr>
-                                <td>
-                                    Outcome
-                                </td>
+                                <td>Outcome</td>
                                 <td>
                                     <?php
                                         $srgOutcomeDDSQL = $Mela_SQL->tbl_LoadItems('Surgery Outcome');
@@ -156,9 +231,7 @@ $Form = new Mela_Forms('surgeryEdit','','POST','surgeryEdit_form');
                                         echo $srgOutcomeDD;                             
                                     ?>
                                 </td>
-                                <td>
-                                    Technique
-                                </td>
+                                <td>Technique</td>
                                 <td>
                                     <?php
                                         $srgTechniqueDDSQL = $Mela_SQL->tbl_LoadItems('Technique');
@@ -174,13 +247,23 @@ $Form = new Mela_Forms('surgeryEdit','','POST','surgeryEdit_form');
                             </tr>
                         </table>
                         
-                    <b>Surgery notes</b><br />
-                    <textarea class="FormBlock" name="surgeryNotes" rows="10" cols="50"><?php echo $operationData['OPER_COMMENTS']; ?></textarea>
-                    <br />
-                    <input type="submit" value="Save" onClick="return CloseAndRefresh()">
-                    <a href="surgeryframe.php?lnkID=<?php echo $lnkID; ?>"><button type="button">Go back</button></a>
-            </fieldset>
+
+
+            <div class="OPCS_footer">
+                <br />
+                <label id="surgLabel">Surgery notes</label><br />
+                <textarea class="surgTextArea" name="surgeryNotes"><?php echo $operationData['OPER_COMMENTS']; ?></textarea>
+                <br />
+            </div>
+
+
+
         </form>
+    </div>
+</div>
+
+
+
         <?php
     } else {
     
