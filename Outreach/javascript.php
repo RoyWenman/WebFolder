@@ -1676,9 +1676,9 @@
 	    function updateDOB() {
 		var dob = $('#dmg-DOB').val();
 		var age = getAge(dob, new Date());
-		$('#dmg-demAgeYears').text(age[0]);
-		$('#dmg-demAgeMonths').text(age[1]);
-		$('#dmg-demAgeDays').text(age[2]);
+		if (!isNaN(age[0])) $('#dmg-demAgeYears').text(age[0]);
+		if (!isNaN(age[1])) $('#dmg-demAgeMonths').text(age[1]);
+		if (!isNaN(age[2])) $('#dmg-demAgeDays').text(age[2]);
 	    }
 	    
 	    $('#dmg-DOB').change(function() {

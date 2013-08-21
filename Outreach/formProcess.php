@@ -1,4 +1,4 @@
-<meta http-equiv="refresh" content="5; URL=patDmg.php?lnkID=<?php echo $_POST['patLNK']; ?>">
+<!--<meta http-equiv="refresh" content="5; URL=patDmg.php?lnkID=<?php echo $_POST['patLNK']; ?>">-->
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
 include './MelaClass/functions.php';
@@ -168,8 +168,7 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
       * If a field contained within this array is not present, an error will be thrown
       * This only checks the existence of the field and that it has a non-empty value
       */
-     $requiredFields = array('dmg-sex' => 'Demographics - Sex',
-			     'adm-outreachNumber' => 'Admission - ID/Outreach Number');
+     $requiredFields = array('adm-outreachNumber' => 'Admission - ID/Outreach Number');
      
      foreach ($requiredFields as $row => $val) {
 	   //echo $_POST[$row];
@@ -869,11 +868,12 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
 			 <h2>
 				Saved successfully
 			 </h2>
-			 <a href="patDmg.php?lnkID=<?php echo $_POST['patLNK']; ?>">Please click here to return if you are not automatically redirected within 5 seconds</a>
+			 <a href="patListing.php">Please click here if you are not automatically redirected within 5 seconds</a>
 		  </span>
 	   </div>
     </div>
     <?php
+    $Mela_SQL->Exec4DSQL("SQLLock_Unlock", $_POST['patLNK']);
     }
     else {
 	echo "<div style='height:100%; width:100%;'>
