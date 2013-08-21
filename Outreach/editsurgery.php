@@ -13,12 +13,74 @@
     
 <script src="media/js/jquery-1.10.0.min.js"></script>
 <script src="media/js/closeEditPages.js"></script>
+<script src="media/js/jquery.validate.min.js"></script>
 <script>
     function resetField(field) {
         $(field).val('');
-        console.debug(field);
+        //console.debug(field);
         //alert("Hi " + field);
     }
+    $(document).ready(function() {
+        $.validator.addMethod("noFutureDates", function(value, element) {
+	    // Check that the date given is not in the future
+	    var myDate = value;
+	    return Date.parse(myDate) <= new Date();
+	}, "Date cannot be in the future");
+        
+        $.validator.addMethod("notEmpty", function(value, element) {
+	    // Check that the data is not empty
+	    if (value.length > 0) {
+                return value;
+            } else return false;
+	}, "Data cannot be empty");
+        
+        var submitted = false;
+	    
+        $("#surgery_form").validate({
+            errorLabelContainer: ".validationErrorBox",
+            wrapper: "li",
+            showErrors: function(errorMap, errorList) {
+                if (submitted) {
+                    if (errorList) {
+                        var summary = "Form errors: \n";
+                        //$.each(errorList, function() { summary += " * " + this.message + "\n"; });
+                        //$(".validationErrorBox").show().text(summary);
+                        //$.each(errorList, function() { summary +="\n"; });
+                        //$(".validationErrorBox").show().text(summary);
+                        submitted = false;	
+                    } else {
+                        $(".validationErrorBox").hide().val('');    
+                    }
+                    
+                }
+                this.defaultShowErrors();
+            },          
+            invalidHandler: function(form, validator) {
+                var submitted = true;
+            },
+            rules: {
+                "surgDate": "noFutureDates",
+                "anaesthetist1": "notEmpty",
+                "anaesthetist2": "notEmpty"
+            },
+             messages: {
+                "surgDate": "Date set cannot be blank or in the future",
+                "anaesthetist1": "Anaesthetist 1 cannot be empty",
+                "anaesthetist2": "Anaesthetist 2 cannot be empty"
+            },
+            highlight: function(element) {
+                $(element).closest('.control-group').removeClass('success').addClass('error');
+            },
+            success: function(element) {
+                $(element).removeClass('error');
+                $(element).remove();
+            }
+        });
+        
+        $.validator.setDefaults({
+	    ignore: ""
+	});
+    });
 </script>
 
 <?php
@@ -121,15 +183,19 @@ if (!$_POST) {
 
 
 
-                <div id="tabs2" class="btn_bar">
-                    <button style="font-size:small;color:red" type="button"  value="Cancel" onclick="CloseAndRefresh()" href=>Cancel</button>
-                    <button style="font-size:small;color:green" type="submit" value="Save">Save</button>
-                    <!-- <input type="submit" value="Save"> -->
-                    <!-- Form submission success -->
-                    <div id="success" style="display: none;">
-                        Success
-                    </div>
+            <div id="tabs2" class="btn_bar">
+                <button style="font-size:small;color:red" type="button"  value="Cancel" onclick="CloseAndRefresh()" href=>Cancel</button>
+                <button style="font-size:small;color:green" type="submit" value="Save">Save</button>
+                <!-- <input type="submit" value="Save"> -->
+                <!-- Form submission success -->
+                <div id="success" style="display: none;">
+                    Success
                 </div>
+            </div>
+                
+            <div class="validationErrorBox" style="display:none;">
+                <!-- Necessary for displaying any form validation errors - leave blank, jQuery fills this in -->
+            </div>
 
 
         <div class="dataContainer">
@@ -360,7 +426,7 @@ if (!$_POST) {
         if($result){ 
             ?>
             <script type="text/javascript">
-                CloseAndRefresh('row','hiddenNotes','sunotes'); 
+                CloseAndRefresh('row','hiddenNotes','SUnotes'); 
             </script>
             <?php
         } 
