@@ -608,6 +608,39 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
 	catch (RuntimeException $e) { 
 	      print("Exception caught: $e");
 	} //echo $vis2_updQuery;
+	
+       // Medications
+       if (((!empty($_POST['mednotes'])) && (count($_POST['mednotes'] > 0))) || ((!empty($_POST['med-Dose'])) && (count($_POST['med-Dose'] > 0))) || ((!empty($_POST['med-doseUnits'])) && (count($_POST['med-doseUnits'] > 0))) || ((!empty($_POST['med-Frequency'])) && (count($_POST['med-Frequency'] > 0)))
+	   || ((!empty($_POST['med-Route'])) && (count($_POST['med-Route'] > 0))) || ((!empty($_POST['med-Outcome'])) && (count($_POST['med-Outcome'] > 0))) || ((!empty($_POST['med-Discontinued'])) && (count($_POST['med-Discontinued'] > 0)))) {
+	      //echo "Medication count is ".count($_POST['DOnotes']);
+	      foreach ($_POST['mednotes'] AS $key => $val) {
+		     $sanitisedComments = filter_var($val, FILTER_SANITIZE_STRING);
+		     $medDose = "";
+		     $medDoseUnits = "";
+		     $medFrequency = "";
+		     $medRoute = "";
+		     $medOutcome = "";
+		     $medDiscontinued = "";
+		     echo "Med Dose val for $val is ".$_POST['med-Dose'][$key]."<br />";
+		     if (isset($_POST['med-Dose'][$key])) $medDose = "med_Dose=".$_POST['med-Dose'][$key].", ";
+		     if (isset($_POST['med-doseUnits'][$key])) $medDoseUnits = "Unit='".$_POST['med-doseUnits'][$key]."', ";
+		     if (isset($_POST['med-Frequency'][$key])) $medFrequency = "med_Frequency='".$_POST['med-Frequency'][$key]."', ";
+		     if (isset($_POST['med-Route'][$key])) $medRoute = "med_Route='".$_POST['med-Route'][$key]."', ";
+		     if (isset($_POST['med-Outcome'][$key])) $medOutcome = "Outcome='".$_POST['med-Outcome'][$key]."', ";
+		     if (isset($_POST['med-Discontinued'][$key])) $medDiscontinued = "End_Date='".$_POST['med-Discontinued'][$key]."', ";
+		     //print "<b>Value</b>: $key as ".$val." also date is ".$_POST['DODate'][$key]." and time is ".$_POST['DOTime'][$key]."<br />";
+		     //if (strlen($_POST['mednotes'][$key]) == 10) {	   
+			    $medno_updQuery = "UPDATE Medication SET $medDose $medDoseUnits $medFrequency $medRoute $medOutcome $medDiscontinued med_Comments='$sanitisedComments'
+			    WHERE itm_ID=$key AND med_lnkID=".$_POST['hiddenLNKID']." AND med_dlkID=".$_POST['patDLKID']."";
+			    try { 
+				$medno_updResult = odbc_exec($connect,$medno_updQuery); 
+			    } 
+			    catch (RuntimeException $e) { 
+				print("Exception caught: $e");
+			    } echo $medno_updQuery;
+		     //}
+	       }
+       }
 	?>
 	<div style="height:100%; width:100%;">
 	      <div class="successbox" style="vertical-align: middle; text-align: center; margin-left: auto; margin-right: auto; border: 3px solid #66CD00; background-color: #CCFFCC; color: #596C56; height:25%; width:25%;">
