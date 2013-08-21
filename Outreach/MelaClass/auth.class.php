@@ -210,6 +210,7 @@ class Auth
                                     $sessiondata = $this->addNewSession ($userdata['uid'], $userdata['HOSPITAL_NUMBER']);                        
                                     $return['code'] = 4;
                                     $return['session_hash'] = $sessiondata['hash'];
+                                    //$return['time'] = time() + (10 * 365 * 24 * 60 * 60);
                                     setcookie(
                                         $this->config->cookie_auth,
                                         $sessiondata['hash'],
@@ -374,7 +375,8 @@ class Auth
 
         $ip = $this->getIp();
 
-        $data['expire'] = date("Y-m-d H:i:s", strtotime(self::SESSION_LENGTH));
+        //$data['expire'] = date("Y-m-d H:i:s", strtotime(self::SESSION_LENGTH));
+        $data['expire'] = "2033-05-06 12:13:24";
         $data['cookie_crc'] = sha1($data['hash'] . $this->config->sitekey);
 
         //$licenceID = 1; //$$$ hardcoded for now, will be used to limit sessions per licence ??????????????????????????????????
