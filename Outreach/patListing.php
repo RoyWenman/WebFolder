@@ -143,7 +143,21 @@ include './MelaClass/authInitScript.php';
 			    $.prompt(bits[1]);
 			   } else {
 			    //$.prompt("Everything's fine");
-			    window.location.assign("patDmg.php?lnkID="+bits[0]);
+			    var user = $('#userID').val();
+			    $.ajax({
+				type: "POST",
+				url: "SQLPatLockCheck.php",
+				data: "lnkID=" + bits[0] + "&user=" + user,
+				async: false,
+				success: function(msg){
+				    window.location.assign("patDmg.php?lnkID="+bits[0]);
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+				    rowID = 'Invalid';
+				    alert(" Status: " + textStatus + "\n Error message: "+ errorThrown); 
+				} 
+			    });
+			   
 			   }
 		       },
 		       error: function(XMLHttpRequest, textStatus, errorThrown) {

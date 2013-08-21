@@ -1,13 +1,13 @@
-<!--<meta http-equiv="refresh" content="5; URL=patDmg.php?lnkID=<?php echo $_POST['patLNK']; ?>">-->
+<meta http-equiv="refresh" content="5; URL=patDmg.php?lnkID=<?php echo $_POST['patLNK']; ?>">
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
 include './MelaClass/functions.php';
 include './MelaClass/db.php';
 include './MelaClass/authInitScript.php';
 
-echo "<h3>Variable dump for debugging purposes (easily hidden). Scroll below for success/failure check</h3>";
+/*echo "<h3>Variable dump for debugging purposes (easily hidden). Scroll below for success/failure check</h3>";
 var_dump($_POST);
-echo "<h4>If you don't see anything below this line it saved successfully</h4>";
+echo "<h4>If you don't see anything below this line it saved successfully</h4>";*/
 
 if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['patLNK']) == 1) {
 

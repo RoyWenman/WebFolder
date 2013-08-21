@@ -144,6 +144,13 @@
 		       || (Number(value) > Number($(params).val())); 
 	       },'Must be greater than {0}.');
 	    
+	    $.validator.addMethod("notZero", function(value, element) {
+		// Check that the value exists and is not zero
+		if (value && value !== '0') {
+		    return value;
+		} else return false;
+	    }, "Cannot be zero");
+	    
 	    /*
 	     * These are all physiology1A range values
 	     */
@@ -223,7 +230,7 @@
 		    "dmg-NHSNumber": "validateNHSNumber",	
 		    "dmg-pregnant" : "canBePregnant",
 		    "dmg-DOB": "bornBeforeToday",
-		    "adm-outreachNumber": "required",
+		    "adm-outreachNumber": "notZero",
 		    "newassDate": "noFutureDates"
 		    /*"phys-temperature": "temperature",
 		    "phys-systolicBP": "systolicBP",
@@ -241,7 +248,7 @@
 		    "dmg-NHSNumber": "Demographics - Invalid NHS Number",
 		    "dmg-pregnant" : "Demographics - Males cannot be pregnant",
 		    "dmg-DOB": "Demographics - Invalid DOB value given",
-		    "adm-outreachNumber": "Admission - Missing ID/Outreach Number",
+		    "adm-outreachNumber": "Admission - ID/Outreach Number must be set and cannot be zero",
 		    "newassDate": "New Assessment - Date cannot be in the future",
 		    "phys-temperature": "Physiology 1A - Temperature is outside of acceptable value range",
 		    "phys-systolicBP": "Physiology 1A - Systolic BP is outside of acceptable value range",
