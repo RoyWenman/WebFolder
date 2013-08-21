@@ -8,7 +8,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 //var_dump($_POST);
 $preferences = $Mela_SQL->getPreferences();
-if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
+//if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
        
        // array of all form fields for convenience
        $formFields = array ('dmg-ID','dmg-hospitalNumber','dmg-NHSNumber','dmg-hospitalAdmissionDate','dmg-firstName','dmg-middleName','dmg-surname','dmg-DOB','dmg-sex','dmg-ethnicity','dmg-language','dmg-pregnant','dmg-weight',
@@ -260,7 +260,7 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
 	   } 
 	   else { 
 	      throw new RuntimeException("Failed to connect."); 
-	   } echo $sql;
+	   } //echo $sql;
        } 
        catch (RuntimeException $e) { 
 	   print("Exception caught: $e");
@@ -621,7 +621,7 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
 		     $medRoute = "";
 		     $medOutcome = "";
 		     $medDiscontinued = "";
-		     echo "Med Dose val for $val is ".$_POST['med-Dose'][$key]."<br />";
+		     //echo "Med Dose val for $val is ".$_POST['med-Dose'][$key]."<br />";
 		     if (isset($_POST['med-Dose'][$key])) $medDose = "med_Dose=".$_POST['med-Dose'][$key].", ";
 		     if (isset($_POST['med-doseUnits'][$key])) $medDoseUnits = "Unit='".$_POST['med-doseUnits'][$key]."', ";
 		     if (isset($_POST['med-Frequency'][$key])) $medFrequency = "med_Frequency='".$_POST['med-Frequency'][$key]."', ";
@@ -637,7 +637,7 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
 			    } 
 			    catch (RuntimeException $e) { 
 				print("Exception caught: $e");
-			    } echo $medno_updQuery;
+			    } //echo $medno_updQuery;
 		     //}
 	       }
        }
@@ -653,7 +653,7 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
 	      </div>
        </div>
 	<?php
-       }
+       /*}
        else {
 	   echo "<div style='height:100%; width:100%;'>
 		   <div class='failurebox' style='vertical-align: middle; text-align: center; margin-left: auto; margin-right: auto; border: 3px solid #A52A2A; background-color: #CD5C5C; color: #330000; height:25%; width:25%;'>
@@ -667,5 +667,5 @@ if ($Mela_SQL->Exec4DSQL("SQLLock_IsLocked", $_POST['hiddenLNKID']) == 1) {
 		       </span>
 		   </div>
 	      </div>";
-       }
+       }*/
        ?>
