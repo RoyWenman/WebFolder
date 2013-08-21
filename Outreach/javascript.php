@@ -661,6 +661,14 @@
 	    
 	    $('.adm-priorSurgeryHide').hide();
 	    
+	    if ($('#adm-priorSurgeryUndertaken-Yes :checked')) {
+		$('.adm-priorSurgeryHide').show();
+	    } else if ($('#adm-priorSurgeryUndertaken-No :checked')) {
+		$('.adm-priorSurgeryHide').hide();
+	    } else {
+		$('.adm-priorSurgeryHide').hide();
+	    }
+	    
 	    $('#adm-priorSurgeryUndertaken-Yes').click(function() {
 		$('.adm-priorSurgeryHide').show();
 	    });
@@ -669,9 +677,13 @@
 		$('.adm-priorSurgeryHide').hide();
 	    });
 	    
-	    $('#adm-ASAScoreDD').change(function() {
-		var scoreVal = $(this).find(":selected").text();
+	    function updateASAScore() {
+		var scoreVal = $("#adm-ASAScoreDD").find(":selected").text();
 		$("#adm-ASAScoreTextBox").load("ASAScore.php?score=" + scoreVal);
+	    }
+	    updateASAScore();
+	    $('#adm-ASAScoreDD').change(function() {
+		updateASAScore();
 	    });
 	    
 	    /*

@@ -9,4 +9,4 @@ $ASAScore = array("I" => "A normal healthy patient",
 
 if ($_REQUEST['score']) {
     echo $ASAScore[$_REQUEST['score']];
-} else echo "No";
+} //else echo "No";

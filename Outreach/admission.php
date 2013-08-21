@@ -701,11 +701,26 @@ echo $otc_calID;
             </tr>
             */ ?>
 
-
             <tr class="adm-priorSurgeryHide">
+                <td class="form_labels">Surgery Classification</td>
+                <td>
+                        <?php
+                        $srgClassificationDDSQL = $Mela_SQL->tbl_LoadItems('Surgery Classification');
+                        $srgClassificationDDArray = array();
+                        for ($i = 1; $i < (count($srgClassificationDDSQL)+1); $i++) {
+                            array_push($srgClassificationDDArray,$srgClassificationDDSQL[$i]['Long_Name']);
+                        }
+                    
+                        $srgClassificationDD = $Form->dropDown('adm-srgClassification',$srgClassificationDDArray,$srgClassificationDDArray,$patient['ADM_SURGERYCLASSIFICATION']);
+                        echo $srgClassificationDD;                           
+                        ?>  
+                </td>
+            </tr>
+            
+            <!--<tr class="adm-priorSurgeryHide">
                 <td class="form_labels">Operation Date</td>
                 <td><input type="text" class="HiddenField"></td>
-            </tr> 
+            </tr>--> 
 
             <tr class="adm-priorSurgeryHide">
                 <td class="form_labels">ASA Score</td>
