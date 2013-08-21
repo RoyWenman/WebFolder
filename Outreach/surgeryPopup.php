@@ -8,7 +8,7 @@
     
 <script src="media/js/jquery-1.10.0.min.js"></script>
 <script src="media/js/closeEditPages.js"></script>
-<script src="media/js/jquery-impromptu.js"></script>
+<script src="media/js/jquery.validate.min.js"></script>
 
 <script language="JavaScript" type="text/javascript">
  function CloseAndRefresh() 
@@ -30,7 +30,7 @@
         $.validator.addMethod("noFutureDates", function(value, element) {
 	    // Check that the date given is not in the future
 	    var myDate = value;
-	    return Date.parse(myDate) >= new Date();
+	    return Date.parse(myDate) <= new Date();
 	}, "Date cannot be in the future");
         
         $.validator.addMethod("notEmpty", function(value, element) {
@@ -70,7 +70,7 @@
                 "anaesthetist2": "notEmpty"
             },
              messages: {
-                "date": "Date set cannot be in the future",
+                "date": "Date set cannot be blank or in the future",
                 "anaesthetist1": "Anaesthetist 1 cannot be empty",
                 "anaesthetist2": "Anaesthetist 2 cannot be empty"
             },
@@ -82,6 +82,10 @@
                 $(element).remove();
             }
         });
+        
+        $.validator.setDefaults({
+	    ignore: ""
+	});
     });
 </script>
 
